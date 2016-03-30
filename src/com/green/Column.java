@@ -6,9 +6,9 @@ package com.green;
 public class Column {
   private int index;
   private String title;
-  private Class type;
+  private String type;
 
-  public Column(int index, String title, Class type) {
+  public Column(int index, String title, String type) {
     this.index = index;
     this.title = title;
     this.type = type;
@@ -30,11 +30,11 @@ public class Column {
     this.title = title;
   }
 
-  public Class getType() {
+  public String getType() {
     return type;
   }
 
-  public void setType(Class type) {
+  public void setType(String type) {
     this.type = type;
   }
 }
