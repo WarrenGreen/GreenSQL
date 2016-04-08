@@ -15,7 +15,7 @@ public class Table {
 
   private final File tableFile;
   public final Map<String, Column> schema;
-  private final Map<Integer, List<Object>> data; //TODO: using an internal int as the primary key
+  public final Map<Integer, List<Object>> data; //TODO: using an internal int as the primary key
   private int maxKeyValue = 0;
 
   public Table() {
@@ -74,5 +74,18 @@ public class Table {
       maxKeyValue = Math.max(maxKeyValue, primaryKey);
       data.put(primaryKey, row);
     }
+  }
+
+  public void print() {
+      schema.forEach((title, column) -> {
+        System.out.print(title + ":" + column.getType() + " ");
+      });
+      System.out.println();
+
+      data.forEach((key, value) -> {
+        value.forEach( obj -> {
+          System.out.print(obj + " ");
+        });
+      });
   }
 }

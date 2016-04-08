@@ -1,5 +1,9 @@
 package com.green;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -14,7 +18,26 @@ public class QueryProcessor {
     this.tables = tables;
   }
 
-  public Table execute(String query) {
+  public void execute(String query) {
+    String[] split = query.split(" ");
+    Set<String> columns = new HashSet<>();
+    int index = 0;
+    if(split[index].equalsIgnoreCase("select")) {
+      index++;
+    }
+
+    while(!split[index].equalsIgnoreCase("from")) {
+      columns.add(split[index]);
+      index++;
+    }
+
+    index++; // from
+
+    String table = split[index];
+
+    Table result = projection(tables.get(table), columns);
+
+    result.print();
 
   }
 
@@ -26,6 +49,14 @@ public class QueryProcessor {
     table.schema.forEach((key, value) -> {
       if (columns.contains(key))
         results.schema.put(key, value);
+    });
+
+    table.data.forEach((key, value) -> {
+      List<Object> row = new ArrayList();
+      results.schema.forEach((title, column) -> {
+        row.add(value.get(column.getIndex()));
+      });
+      results.data.put(key, row);
     });
 
     return results;
